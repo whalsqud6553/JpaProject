@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content" class="frame">
+	<div class="board_detail">
+		<div class="detail_top flex">
+			<div class="detail_boardTitle" th:text="${board.boardTitle}"></div>
+			<div class="detail_boardWriter" th:text="|작성자 : ${board.boardWriter}|"></div>
+			<div class="detail_boardCreateTime" th:text="|작성일 : *{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd')}|"></div>
+			<div class="detail_boardHits" th:text="|조회수 : ${board.boardHits}|"></div>
+		</div>
+		<div class="board_bar"></div>
+		<div class="detail_middle">
+			<div class="detail_content" th:text="${board.boardContents}"></div>	
+		</div>
+		<div class="board_bar"></div>
+		<div class="detail_bottom flex">
+			<div th:if="${session.user != null}">
+				<div th:if="${session.user.userId} == ${board.boardWriter}">
+					<button id="boardModifyBtn">수정</button>
+					<button id="boardDeleteBtn">삭제</button>
+				</div>
+			</div>
+			<button id="toListBtn">목록으로</button>
+		</div>
+	</div>
+	<div class="community_comment">
+		<h3>댓글</h3>
+		<div class="community_comment_bar"></div>
+		<div th:if="${#lists.isEmpty(commentList)}">
+			<h3>작성된 댓글이 없습니다.</h3>
+		</div>
+		
+		<div th:unless="${#lists.isEmpty(commentList)}" class="comment_content" th:each="comment : ${commentList}">
+			<p th:text="${comment.commentContent}"></p>
+			<div class="flex">
+				<p th:text="${comment.commentWriter}"></p>
+				<p th:text="*{#temporals.format(comment.commentCreateTime, 'yyyy-MM-dd HH:mm')}"></p>
+				<p th:if="${session.user != null && comment.commentWriter == session.user.userId}"
+				 class="commentDeleteBtn" th:data-id="${comment.id}">삭제</p>
+			</div>
+		</div>
+		<div class="comment_form" th:if="${session.user != null}">
+			<form method="POST" th:action="@{/board/comment/{id}(id=${board.id})}">
+				<input type="text" name="commentContent" placeholder="댓글을 입력해 주세요" required>
+				<input type="submit" value="작성">
+			</form>
+		</div>
+	</div>
+	
+	<script th:inline="javascript">
+	document.addEventListener('DOMContentLoaded', function() {
+		$('#toListBtn').click(function() {
+			location.href = '/board/list?page=' + [[${page}]];
+		})
+		$('#boardModifyBtn').click(function() {
+			if(confirm('정말 수정하시겠습니까?')) {
+				location.href = '/board/boardModify/' + '[[${board.id}]]';
+			}
+		})
+		$('#boardDeleteBtn').click(function() {
+			if(confirm('정말 삭제하시겠습니까?')) {
+				location.href = '/board/boardDelete/' + '[[${board.id}]]';
+			}
+		})
+		
+		$('.commentDeleteBtn').click(function() {
+// 			const commentId = document.getElementById('commentDeleteBtn').dataset.id;
+			const commentId = $(this).data('id');
+			const boardId = '[[${board.id}]]';
+			if(confirm('정말 삭제하시겠습니까?')) {
+				location.href = '/board/commentDelete/' + commentId + '/' + boardId;
+			}
+		})
+	})
+	</script>
+</div>
+
+</html>

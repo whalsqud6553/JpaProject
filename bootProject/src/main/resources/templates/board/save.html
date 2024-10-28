@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+
+<div layout:fragment="content" class="frame">
+	
+	<div class="saveForm">
+		<form method="POST">
+			<p><input type="text" name="boardTitle" placeholder="제목을 입력 해주세요" required></p>
+			<p><textarea name="boardContents" placeholder="내용을 입력 해주세요" required></textarea></p>
+			<p><input type="submit" value="작성하기"></p>
+		</form>
+	</div>
+	
+	<script th:inline="javascript">
+		document.addEventListener('DOMContentLoaded', function() {
+			const user = [[${session.user}]];
+			if(user == null) {
+				alert('로그인 후 이용해주세요.');
+				location.href = '/member/login';
+			}
+		})
+	</script>
+</div>
+</body>
+</html>

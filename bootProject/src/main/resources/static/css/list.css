@@ -1,0 +1,28 @@
+#saveBtn {
+	margin: 50px 0;
+	padding: 10px;
+	float: right;
+	background-color: #f4e7da;
+	border: none;
+	font-size: 20px;
+	color: #a4837c;
+	font-weight: bold;
+}
+#saveBtn:hover {
+	color: 	#cd853f;
+	background-color: #ffe4b5;
+}
+.paging {
+	justify-content: center;
+}
+.paging > a, .paging > span {
+	padding: 0 4px;
+	font-weight: bold;
+	color: #a4837c;
+}
+.paging > a:hover, .paging > span:hover {
+	padding: 0 4px;
+	font-weight: bold;
+	color: #cd853f;
+	cursor: pointer;
+}

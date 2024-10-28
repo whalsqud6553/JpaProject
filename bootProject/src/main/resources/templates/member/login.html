@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+	
+<div layout:fragment="content" class="frame">
+
+	<div class="login">
+		<div class="login_logo">
+			<img src="/img/logo.jpg">
+		</div>
+		<div class="login_form">
+			<form method="POST" action="/member/login">
+				<p><input type="text" name="userId" placeholder="아이디" required autofocus></p>
+				<p><input type="password" name="userPassword" placeholder="패스워드" required></p>
+				<p><input type="submit" value="로그인"></p>
+			</form>
+			<div class="member_menu flex">
+				<p onclick="findPassword()">비밀번호 찾기</p>
+				<p>|</p>
+				<p onclick="findId()">아이디 찾기</p>
+				<p>|</p>
+				<p onclick="joinMember()">회원 가입</p>
+			</div>
+			<div class="kakao_login">
+				<img src="/img/kakao_login2.png" onclick="kakaoLogin()">
+			</div>
+		</div>
+	</div>
+	
+	<script th:inline="javascript">
+		function findPassword() {
+			location.href = '/member/findPassword';
+		}
+		function findId() {
+			location.href = '/member/findUserId';
+		}
+		function joinMember() {
+			location.href = '/member/join';
+		}
+		
+		const kakaoApiKey = [[${kakaoApiKey}]];
+		const redirectUrl = [[${redirectUrl}]];
+		
+		function kakaoLogin() {
+			location.href = 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=' + kakaoApiKey + '&redirect_uri=' + redirectUrl;
+		}
+		
+		
+	</script>
+</div>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html 
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layouts/layout}"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div th:fragment="header" class="header_bar">
+	<script src="/js/header.js"></script>
+
+	<div class="frame">
+		<div class="header_nav flex">
+			<div class="logo">
+				<a href="/"><img src="/img/logo.jpg"></a>
+			</div>
+			<div class="header_menu">
+				<a href="/board/list">커뮤니티</a>
+			</div>
+			<div class="header_menu">
+				<a href="/studyboard/studyrecruit">스터디 모집</a>
+			</div>
+			<div class="login_img">
+				<img src="/img/login.png"  id="member_img">
+			</div>
+		</div>
+	</div>
+	
+	<div class="header_modal">
+		<dialog class="member_modal">
+			<div th:if="${session.user == null}">
+				<button class="login_btn">로그인</button>
+				<p style="margin: 20px;"></p>
+				<button class="join_btn">회원가입</button>
+				<p></p>
+			</div>
+			<div th:if="${session.user != null && session.user.isKakao == 'N'}">
+				<h4 th:text="|${session.user.userId}님, 환영합니다|"></h4>
+				<button class="logout_btn">로그아웃</button>
+				<p style="margin: 20px;"></p>
+				<button class="mypage_btn">마이페이지</button>
+				<p></p>
+			</div>
+			<div th:if="${session.user != null && session.user.isKakao == 'Y'}">
+				<h4 th:text="|${session.user.userEmail}님, 환영합니다|"></h4>
+				<button class="kakaoLogout_btn">로그아웃</button>
+				<p style="margin: 20px;"></p>
+				<button class="mypage_btn">마이페이지</button>
+				<p></p>
+			</div>
+			<button class="member_modal_closeBtn">닫기</button>
+		</dialog>
+	</div>
+</div>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+	
+<div layout:fragment="content">
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			alert('탈퇴한 회원입니다.');
+			location.href = '/';
+		})
+	</script>
+</div>
+</html>

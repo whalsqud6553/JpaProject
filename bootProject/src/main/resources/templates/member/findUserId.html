@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+	
+<div layout:fragment="content" class="frame">
+	<h1 style="text-align: center">아이디 찾기</h1>
+	<div class="findUserIdForm">
+		<form>
+			<p>
+				<input class="useremail" type="email" placeholder="가입할 때 인증 받은 이메일을 입력하세요." onkeyup="if(window.event.keyCode==13){emailCheck()}">
+				<input id="emailauthBtn" type="button" value="확인" onclick="emailCheck()">
+			</p>
+			<p>
+				<input class="authCode" type="text" placeholder="인증번호를 입력해주세요." hidden="hidden" onkeyup="if(window.event.keyCode==13){authCodeCheck()}"> 
+				<input id="authCodeBtn" type="button" value="확인" hidden="hidden" onclick="authCodeCheck()">
+			</p>
+			<p><label class="emailauthLabel" hidden="hidden"></label></p>
+			<div class="userIdLabel" hidden="hidden"></div>
+			<p><label class="urlFindPassword" hidden="hidden">비밀번호 찾으러 가기</label></p>
+		</form>
+	</div>
+	
+	<script th:inline="javascript">
+		let code;
+		window.emailCheck = function() {
+			$.ajax({
+				type: "POST",
+				url: "/mail/auth",
+				data: {
+					"email": $('.useremail').val()
+				},
+				success: function(data) {
+					code = data;
+					console.log(code);
+					document.querySelector('.authCode').hidden = "";
+					document.getElementById('authCodeBtn').hidden = "";
+					document.querySelector('.useremail').readOnly = true;
+				}
+			})
+		}
+		
+		window.authCodeCheck = function() {
+			if(code == $('.authCode').val()) {
+				document.querySelector('.emailauthLabel').hidden = "";
+				document.querySelector('.emailauthLabel').innerText = '인증이 완료되었습니다.';
+				$.ajax({
+					type: "POST",
+					url: "/member/emailCheck",
+					data: {
+						"email": $('.useremail').val()
+					},
+					success: function(data) {
+						if(data.length > 0) {
+							document.querySelector('.userIdLabel').hidden = "";
+							let userIdLabel = document.querySelector('.userIdLabel');
+							
+							data.forEach(member => {
+								let h3 = document.createElement('h3');
+								h3.innerText = "가입하신 아이디는 " + member.userId + " 입니다.";
+								userIdLabel.appendChild(h3);
+							})
+							document.querySelector('.urlFindPassword').hidden = "";
+						} 
+						else {
+							document.querySelector('.userIdLabel').hidden = "";
+							let userIdLabel = document.querySelector('.userIdLabel');
+							
+							let h3 = document.createElement('h3');
+							h3.innerText = "해당 이메일로 가입하신 아이디가 존재하지 않습니다.";
+							userIdLabel.appendChild(h3);
+						}
+					}
+				})
+			}
+			else {
+				document.querySelector('.emailauthLabel').hidden = "";
+				document.querySelector('.emailauthLabel').innerText = '인증번호가 일치하지 않습니다.';
+			}
+		}
+		
+		$('.urlFindPassword').click(function() {
+			location.href = '/member/findPassword';
+		})
+	</script>
+</div>
+</html>

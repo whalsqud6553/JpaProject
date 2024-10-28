@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+
+<div layout:fragment="content" class="frame">
+	
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			alert('비정상적인 접근입니다.');
+			location.href = '/';
+		})
+	</script>
+</div>
+</body>
+</html>

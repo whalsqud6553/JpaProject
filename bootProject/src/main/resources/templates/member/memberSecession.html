@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content" class="frame">
+	<h1 style="text-align: center">회원 탈퇴</h1>
+	<div class="memberSecessionForm">
+		<form>
+			<p>
+				<input class="userpw" type="password" placeholder="현재 비밀번호를 입력해주세요." onkeyup="if(window.event.keyCode==13){pwCheck()}">
+				<input id="userpwBtn" type="button" value="확인" onclick="pwCheck()">
+			</p>
+			<p><label class="userpwLabel" hidden="hidden"></label></p>
+			<p><input id="secessionBtn" type="button" value="회원 탈퇴" hidden="hidden" onclick="memberSecession()"></p>
+		</form>
+	</div>
+	
+	<script th:inline="javascript">
+		const user = [[${session.user}]];
+		if(user == null) {
+			alert('로그인 후 이용해주세요');
+			location.href = '/member/login';
+		}
+		else if(user.isKakao == 'Y') {
+			alert('잘못된 접근 입니다.');
+			location.href = "/";
+		}
+		else {
+			window.pwCheck = function() {
+				$.ajax({
+					type: "POST",
+					url: "/member/pwCheck",
+					data: {
+						"userpw": $('.userpw').val(),
+						"userid": user.userId
+					},
+					success: function(data) {
+						if(data == 'equals') {
+							document.querySelector('.userpwLabel').hidden = "hidden";
+							document.querySelector('.userpwLabel').innerText = "";
+							document.getElementById('secessionBtn').hidden = "";
+							document.querySelector('.userpw').readOnly = true;
+						}
+						else {
+							document.querySelector('.userpwLabel').hidden = "";
+							document.querySelector('.userpwLabel').innerText = "비밀번호가 일치하지 않습니다.";
+						}
+					}
+				})
+			}
+			
+			window.memberSecession = function() {
+				if(confirm('정말 탈퇴 하시겠습니까 ? 탈퇴가 진행되면 되돌릴 수 없습니다.')) {
+					location.href = '/member/memberDelete/' + user.userId;
+				}
+			}
+		}
+	</script>
+</div>
+</html>

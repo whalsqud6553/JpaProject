@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+	
+<div layout:fragment="content" class="frame">
+	<h2 style="text-align: center; margin-top: 60px;">스터디 모집 채팅방</h2>
+	<h3 class="sessions"></h3>
+	<div class="messageArea">
+		
+	</div>
+	<div class="messageForm">
+		<div class="sendbox">
+			<textarea class="messageBox" onkeyup="if(window.event.keyCode==13){send()}" placeholder="자유롭게 채팅을 시작해주세요."></textarea>
+			<button class="sendBtn" onclick="send()">전송</button>	
+		</div>
+	</div>
+	
+	<script th:inline="javascript">
+		document.addEventListener('DOMContentLoaded', function() {
+			const user = [[${session.user}]];
+			
+			if(user == null) {
+				alert('로그인을 해주세요');
+				location.href = '/member/login';
+			}
+			
+			let websocket = new WebSocket('ws://localhost:8080/ws/studyrecruit');
+			console.log(websocket);
+			
+			websocket.onmessage = onMessage;
+			websocket.onopen = onOpen;
+			
+			window.send = function() {
+				let msg = document.querySelector('.messageBox');
+				
+				if(user != null) {
+					const username = user.userId;
+					websocket.send("<strong>" + username + "</strong> : " + msg.value);
+					msg.value = '';
+				}
+			}
+			
+			function onOpen(evt) {
+				if(user != null) {
+					let username = user.userId;
+					let str = '****** <strong>' + username + '님이 입장하셨습니다.</strong> ******';
+					websocket.send(str);
+				}
+			}
+			
+			window.addEventListener('beforeunload', function() {
+			    if (user != null && websocket.readyState === WebSocket.OPEN) {
+			        let username = user.userId;
+			        let str = '****** <strong>' + username + '님이 방을 나갔습니다.</strong> ******';
+			        websocket.send(str); // 메시지를 서버로 전송
+			        websocket.close();
+			    }
+			});
+			
+			let messageArea = document.querySelector('.messageArea');
+			
+			const sessions = document.querySelector('.sessions');
+			
+			function onMessage(msg) {
+				if(msg.data.includes('** 현재 접속자 수 :')) {
+					sessions.innerText = msg.data;
+				}
+				else {
+					const div = document.createElement('div');
+					div.innerHTML = msg.data;
+					messageArea.appendChild(div);
+				}
+				
+				messageArea.scrollTop = messageArea.scrollHeight;
+			}
+		})
+	</script>
+</div>
+</html>

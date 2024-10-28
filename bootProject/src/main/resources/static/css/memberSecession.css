@@ -1,0 +1,41 @@
+.memberSecessionForm > form {
+	margin-left: 33%;
+}
+.memberSecessionForm > form > p {
+	margin: 5px 0;
+}
+.memberSecessionForm > form > p:first-child > input:first-child {
+	width: 410px;
+	padding: 20px;
+	border: none;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+#userpwBtn {
+	padding: 15px;
+	background-color: #f4e7da;
+	color: #a4837c;
+	border: none;
+	font-weight: bold;
+	border-radius: 10px;
+	margin: 15px 0;
+}
+#userpwBtn:hover {
+	color: 	#cd853f;
+	background-color: #ffe4b5;
+	font-weight: bold;
+}
+#secessionBtn {
+	width: 410px;
+	padding: 15px;
+	background-color: #f4e7da;
+	color: #a4837c;
+	border: none;
+	font-weight: bold;
+	border-radius: 10px;
+}
+#secessionBtn:hover {
+	color: 	#cd853f;
+	background-color: #ffe4b5;
+	font-weight: bold;
+}

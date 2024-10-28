@@ -1,0 +1,32 @@
+.backgroundImg {
+	position: relative;
+}
+.backgroundImg > img {
+	position: absolute;
+	width: 100%;
+	height: 1000px;
+	top: -60px;
+}
+.backgroundText {
+	text-align: center;
+	padding-top: 1000px;
+}
+.backgroundText > h1 {
+	font-weight: bold;
+}
+.index_link {
+	justify-content: center;
+	margin-top: 50px;
+}
+.index_link > .space {
+	width: 200px;
+}
+.index_link > a {
+	font-size: 2.5em;
+	font-weight: bold;
+}
+.index_link > a:hover {
+	cursor: pointer;
+	text-decoration: underline;
+	color: #a4837c;
+}

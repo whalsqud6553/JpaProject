@@ -1,0 +1,10 @@
+#wrap {
+	height: auto;
+	min-height: 100%;
+}
+footer {
+	height: 200px;
+	position: relative;
+	transform: translateY(50%);
+	background-color: #f4e7da;
+}

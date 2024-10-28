@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+	
+<div layout:fragment="content" class="frame">
+	<!-- js -->
+	<script src="/js/join.js"></script>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	
+	<div class="join">
+		<div class="join_logo">
+			<img src="/img/logo.jpg">
+		</div>
+		<div class="join_form">
+			<form method="POST" action="/member/join">
+				<p>
+					<input type="text" id="userId" name="userId" placeholder="아이디" required autofocus>
+					<button type="button" id="userIdButton">중복확인</button>
+				</p>
+				<p><label class="userIdLabel" hidden="hidden"></label></p>
+				<p><input type="password" id="userPassword" name="userPassword" placeholder="패스워드" required></p>
+				<p><input type="password" id="userPasswordCheck" name="userPasswrodCheck" placeholder="패스워드확인" required></p>
+				<p><label class="userPasswordLabel"  hidden="hidden"></label></p>
+				<p>
+					<input type="text" id="userNickname" name="userNickname" placeholder="닉네임" required>
+					<button type="button" id="userNicknameButton">중복확인</button>
+				</p>
+				<p><label class="userNicknameLabel"  hidden="hidden"></label></p>
+				<p>
+					<input type="email" id="userEmail" name="userEmail" placeholder="이메일" required>
+					<button type="button" id="emailButton">인증요청</button>
+				</p>
+				<p><input type="text" id="authcodeBox" placeholder="이메일 인증번호" required></p>
+				<p><label class="userEmailLabel"  hidden="hidden"></label></p>
+				<p><input type="button" id="joinSubmitButton" value="회원가입"></p>
+			</form>
+		</div>
+	</div>
+</div>
+</html>

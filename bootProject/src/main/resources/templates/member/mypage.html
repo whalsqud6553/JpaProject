@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content" class="frame">
+	<h1 style="text-align: center">마이페이지</h1>
+	<div class="userType" th:if="${session.user.isKakao == 'N'}" style="margin: auto; width: 400px;">회원 유형 : 일반 회원</div>
+	<div class="userType" th:if="${session.user.isKakao == 'Y'}" style="margin: auto; width: 400px;">회원 유형 : 카카오 회원</div>
+	<div class="mypageForm">
+		<p><button id="updatePasswordBtn">비밀번호 변경</button></p>
+		<p><button id="secessionBtn">회원 탈퇴</button></p>
+	</div>
+	
+	<script th:inline="javascript">
+		const user = [[${session.user}]];
+		if(user == null) {
+			alert('로그인 후 이용해주세요');
+			location.href = '/member/login';
+		}
+		
+		$('#updatePasswordBtn').click(function() {
+			if(user.isKakao == 'Y') {
+				alert('카카오회원은 비밀번호 변경이 불가능합니다.');
+				location.reload(true);
+			}
+			else {
+				location.href = '/member/updatePassword';
+			}
+		})
+		
+		$('#secessionBtn').click(function() {
+			if(user.isKakao == 'Y') {
+				if(confirm('정말 탈퇴 하시겠습니까 ?')) {
+					location.href = '/member/memberDelete/' + user.userId;
+				}
+			}
+			else {
+				location.href = '/member/memberSecession';
+			}
+		})
+	</script>
+</div>
+</html>

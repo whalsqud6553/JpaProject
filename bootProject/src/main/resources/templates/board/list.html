@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content" class="frame">
+	<div th:if="${#lists.isEmpty(boardList)}">
+		<h1>작성된 게시글이 없습니다.</h1>
+	</div>
+	<div th:unless="${#lists.isEmpty(boardList)}">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col" style="width: 100px;">#</th>
+					<th scope="col">제목</th>
+					<th scope="col" style="width: 250px;">작성자</th>
+					<th scope="col" style="width: 150px;">작성일</th>
+					<th scope="col" style="width: 150px;">조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="board: ${boardList}">
+					<th style="width: 100px;" scope="row" th:text="${board.id}"></th>
+					<td><a th:href="@{|/board/list/${board.id}|(page=${boardList.number + 1})}" th:text="${board.boardTitle}"></a></td>
+					<td style="width: 250px;" th:text="${board.boardWriter}"></td>
+					<td style="width: 150px;" th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd')}"></td>
+					<td style="width: 150px;" th:text="${board.boardHits}"></td>
+			   	</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="paging flex">
+		<a th:href="@{/board/list(page=1)}">First</a>
+		<!-- 이전 링크 활성화 비활성화 -->
+		<!-- boardList.getNumber()  -->
+		<a th:href="${boardList.first} ? '#' : @{/board/list(page=${boardList.number})}" class="prevBtn">prev</a>
+		
+		<!-- 페이지 번호 링크(현재 페이지는 숫자만) 
+				for(int i = startPage; i <= endPage; i++) -->
+		<span th:each="page: ${#numbers.sequence(startPage, endPage)}" class="thisPage">
+			<span>
+				<a th:href="@{/board/list(page=${page})}" th:text="${page}"></a>
+			</span>
+		</span>
+		
+		<a th:href="${boardList.last} ? '#' : @{/board/list(page=${boardList.number + 2})}" class="nextBtn">next</a>
+		<a th:href="@{/board/list(page=${boardList.totalPages})}">Last</a>
+	</div>
+	<div class="list_btn">
+		<button id="saveBtn">글쓰기</button>
+	</div>
+	
+	
+	<script th:inline="javascript">
+		document.addEventListener('DOMContentLoaded', function() {
+			$('#saveBtn').click(function() {
+				location.href = '/board/save';
+			})
+			const thisPages = document.querySelectorAll('.thisPage');
+			const nextBtn = document.querySelector('.nextBtn');
+			thisPages.forEach(a => {
+				if('[[${boardList.number + 1}]]' == a.innerText) {
+					a.style.fontWeight = 'normal';
+					a.style.pointerEvents = 'none';
+					a.style.cursor = 'default';
+					a.style.color = '#a4837c';
+				}
+			})
+		})
+	</script>
+</div>
+</html>

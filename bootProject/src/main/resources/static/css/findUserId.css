@@ -1,0 +1,45 @@
+.findUserIdForm > form {
+	text-align: center;
+}
+.findUserIdForm > form > p {
+	margin: 5px 0;
+}
+.findUserIdForm > form > p:first-child > input:first-child, .findUserIdForm > form > p:nth-child(2) > input:first-child {
+	width: 410px;
+	padding: 20px;
+	border: none;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+#emailauthBtn, #authCodeBtn {
+	padding: 15px;
+	background-color: #f4e7da;
+	color: #a4837c;
+	border: none;
+	font-weight: bold;
+	border-radius: 10px;
+	margin: 15px 0;
+}
+#emailauthBtn:hover, #authCodeBtn:hover {
+	color: 	#cd853f;
+	background-color: #ffe4b5;
+	font-weight: bold;
+}
+.urlFindPassword {
+	width: 410px;
+	padding: 20px;
+	background-color: #f4e7da;
+	color: #a4837c;
+	border: none;
+	font-weight: bold;
+	border-radius: 10px;
+}
+.urlFindPassword:hover {
+	cursor: pointer;
+	color: 	#cd853f;
+	background-color: #ffe4b5;
+	font-weight: bold;
+}
+.emailauthLabel {
+	margin: 20px 0;
+}

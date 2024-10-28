@@ -1,0 +1,35 @@
+.messageArea {
+	width: 600px;
+	height: 600px;
+	border: 2px solid #ffe4b5;
+	margin: auto;
+	overflow-y: auto; /* 세로 방향으로 스크롤 가능 */
+}
+.messageForm {
+	width: 600px;
+	height: 200px;
+	margin: 20px auto;
+}
+.messageForm > .sendbox > textarea {
+	width: 530px;
+	height: 150px;
+	border: none;
+	border: 2px solid #ffe4b5;
+}
+.sendBtn {
+	padding: 0px 10px;
+	background-color: #f4e7da;
+	border: none;
+	font-size: 20px;
+	color: #a4837c;
+	font-weight: bold;
+}
+.sendBtn:hover {
+	color: 	#cd853f;
+	background-color: #ffe4b5;
+}
+.sessions {
+	width: 600px;
+	margin: auto;
+	padding: 20px 0;
+}
